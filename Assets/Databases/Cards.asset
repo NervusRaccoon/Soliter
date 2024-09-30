@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f237ce93a4c6a974e8a78e32a5b785d8, type: 3}
+  m_Name: Cards
+  m_EditorClassIdentifier: 
+  CardsData:
+  - Index: 0
+    PrevIndex: 12
+    NextIndex: 1
+    CardName: 2
+  - Index: 1
+    PrevIndex: 0
+    NextIndex: 2
+    CardName: 3
+  - Index: 2
+    PrevIndex: 1
+    NextIndex: 3
+    CardName: 4
+  - Index: 3
+    PrevIndex: 2
+    NextIndex: 4
+    CardName: 5
+  - Index: 4
+    PrevIndex: 3
+    NextIndex: 5
+    CardName: 6
+  - Index: 5
+    PrevIndex: 4
+    NextIndex: 6
+    CardName: 7
+  - Index: 6
+    PrevIndex: 5
+    NextIndex: 7
+    CardName: 8
+  - Index: 7
+    PrevIndex: 6
+    NextIndex: 8
+    CardName: 9
+  - Index: 8
+    PrevIndex: 7
+    NextIndex: 9
+    CardName: 10
+  - Index: 9
+    PrevIndex: 8
+    NextIndex: 10
+    CardName: J
+  - Index: 10
+    PrevIndex: 9
+    NextIndex: 11
+    CardName: Q
+  - Index: 11
+    PrevIndex: 10
+    NextIndex: 12
+    CardName: K
+  - Index: 12
+    PrevIndex: 11
+    NextIndex: 0
+    CardName: A
+  OnBoardCardsCount: 40
+  ComboCardsCount: {x: 2, y: 7}
+  IncreasingComboChance: 65
+  MixedComboChance: 15
