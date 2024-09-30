@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,51 +13,86 @@ namespace SoliterGame.Cards
         {
         }
 
-        private int _cardsCount;
-        private (int, int) _comboCardsCount;
+        private class CardInCombo
+        {
+            public CardData CardData;
+            public int Pos;
+        }
+
         private List<CardData> _cardsData;
-        private int _increasingComboChance;
-        private int _mixedComboChance;
-        private Dictionary<int, List<CardData>> _comboDict = new Dictionary<int, List<CardData>>();
+        private Dictionary<int, List<CardInCombo>> _comboDict = new Dictionary<int, List<CardInCombo>>();
+        private Dictionary<int, List<CardData>> _cardPacks = new Dictionary<int, List<CardData>>();
+        public Action OnCardPacksGenerated { get; set; }
 
         public void Start()
         {
             _cardsData = Game.Databases.Cards.GetStateCardsData();
-            _cardsCount = Game.Databases.Cards.GetBoardCardsCount();
-            _comboCardsCount = Game.Databases.Cards.GetComboCardsCount();
-            _increasingComboChance = Game.Databases.Cards.GetIncreasingComboChance();
-            _mixedComboChance = Game.Databases.Cards.GetMixedComboChance();
-            GenerateCombo();
+            int cardsCount = Game.Databases.Cards.GetBoardCardsCount();
+            (int, int) comboCardsCount = Game.Databases.Cards.GetComboCardsCount();
+            int increasingComboChance = Game.Databases.Cards.GetIncreasingComboChance();
+            int mixedComboChance = Game.Databases.Cards.GetMixedComboChance();
+            int cardPacksCount = Game.Databases.Cards.GetCardPacksCount();
+            GenerateCombo(cardsCount, comboCardsCount, increasingComboChance, mixedComboChance, cardPacksCount);
+            GenerateCardPacks(cardPacksCount);
         }
 
-        private void GenerateCombo()
+        public List<CardData> GetCardPackData(int pos)
         {
-            int cardsLeft = _cardsCount;
+            return _cardPacks.ContainsKey(pos) ? _cardPacks[pos] : new List<CardData>();
+        }
+
+        private void GenerateCombo(int cardsCount, (int, int) comboCardsBorderCount, int increasingComboChance, int mixedComboChance, int cardPacksCount)
+        {
+            int cardsLeft = cardsCount;
             while (cardsLeft > 0)
             {
-                int comboCardsCount = Random.Range(_comboCardsCount.Item1, _comboCardsCount.Item2+1);
+                int comboCardsCount = UnityEngine.Random.Range(comboCardsBorderCount.Item1, comboCardsBorderCount.Item2 + 1);
                 cardsLeft -= comboCardsCount;
 
-                List<CardData> combo = new List<CardData>();
-                CardData lastCardInCombo = _cardsData[Random.Range(0, _cardsData.Count)];
+                List<CardInCombo> combo = new List<CardInCombo>();
+                CardInCombo lastCardInCombo = new CardInCombo
+                {
+                    CardData = _cardsData[UnityEngine.Random.Range(0, _cardsData.Count)],
+                    Pos = 0
+                };
                 combo.Add(lastCardInCombo);
 
-                bool isIncreasing = Random.Range(0, 100) <= _increasingComboChance;
-                Debug.Log((isIncreasing ? "inc" : "dec") + " combo = " + comboCardsCount);
-                Debug.Log(lastCardInCombo.CardName);
+                bool isIncreasing = UnityEngine.Random.Range(0, 100) <= increasingComboChance;
                 for (int i = 1; i < comboCardsCount; i++)
                 {
-                    if (Random.Range(0, 100) <= _mixedComboChance)
+                    if (UnityEngine.Random.Range(0, 100) <= mixedComboChance)
                     {
                         isIncreasing = !isIncreasing;
-                        Debug.Log("mixed combination!");
                     }
-                    lastCardInCombo = _cardsData.Find(x => isIncreasing ? lastCardInCombo.NextIndex == x.Index : lastCardInCombo.PrevIndex == x.Index);
+                    lastCardInCombo = new CardInCombo
+                    {
+                        CardData = _cardsData.Find(x => isIncreasing ? lastCardInCombo.CardData.NextIndex == x.Index : lastCardInCombo.CardData.PrevIndex == x.Index),
+                        Pos = UnityEngine.Random.Range(1, cardPacksCount + 1)
+                    };
                     combo.Add(lastCardInCombo);
-                    Debug.Log(lastCardInCombo.CardName);
                 }
                 _comboDict.Add(_comboDict.Count, combo);
             }
+        }
+
+        private void GenerateCardPacks(int cardPacksCount)
+        {
+            for (int i = _comboDict.First().Key; i <= _comboDict.Last().Key; i++)
+            {
+                _comboDict[i].ForEach(x =>
+                {
+                    if (_cardPacks.ContainsKey(x.Pos))
+                    {
+                        _cardPacks[x.Pos].Add(x.CardData);
+                    }
+                    else
+                    {
+                        _cardPacks.Add(x.Pos, new List<CardData> { x.CardData });
+                    }
+                });
+            }
+
+            OnCardPacksGenerated?.Invoke();
         }
     }
 }

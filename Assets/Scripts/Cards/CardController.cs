@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SoliterGame.Cards.Db.CardDB;
 
 namespace SoliterGame.Cards
 {
@@ -23,6 +24,11 @@ namespace SoliterGame.Cards
         private void OnDestroy()
         {
             Game.Card = null;
+        }
+
+        public List<CardData> GetCardPackData(int pos)
+        {
+            return _cardModel.GetCardPackData(pos);
         }
     }
 }

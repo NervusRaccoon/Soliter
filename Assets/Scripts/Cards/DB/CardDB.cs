@@ -20,6 +20,7 @@ namespace SoliterGame.Cards.Db
         public Vector2Int ComboCardsCount;
         public int IncreasingComboChance;
         public int MixedComboChance;
+        public int CardPacksCount;
 
         public List<CardData> GetStateCardsData()
         {
@@ -44,6 +45,11 @@ namespace SoliterGame.Cards.Db
         public int GetMixedComboChance()
         {
             return MixedComboChance;
+        }
+
+        public int GetCardPacksCount()
+        {
+            return CardPacksCount;
         }
     }
 }

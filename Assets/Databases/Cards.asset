@@ -69,3 +69,4 @@ MonoBehaviour:
   ComboCardsCount: {x: 2, y: 7}
   IncreasingComboChance: 65
   MixedComboChance: 15
+  CardPacksCount: 4
