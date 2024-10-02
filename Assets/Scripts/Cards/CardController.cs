@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static SoliterGame.Cards.CardModel;
 
@@ -12,6 +13,7 @@ namespace SoliterGame.Cards
 
         private Dictionary<int, (int, int)> _cardPacksStatus = new Dictionary<int, (int, int)>(); //pos, currCardCount, maxCardCount
         public Action<int, CardView> OnUpdateCardPack;
+        public Action OnLevelFinished;
         private CardView _currentComboCard;
 
         private void Awake()
@@ -32,15 +34,21 @@ namespace SoliterGame.Cards
             Game.Card = null;
         }
 
-        private void CreateCardPacks()
+        public void CreateCardPacks()
         {
+            _cardPacksStatus.Clear();
             var cardPacks = _cardModel.GetCardPacksData();
             _currentComboCard = cardPacks[0][0];
             foreach (var keyValue in cardPacks)
             {
-                _cardPacksStatus.Add(keyValue.Key, (0, cardPacks.Count));
+                _cardPacksStatus.Add(keyValue.Key, (0, cardPacks[keyValue.Key].Count - (keyValue.Key == 0 ? 1 : 0)));
                 OnUpdateCardPack?.Invoke(keyValue.Key, cardPacks[keyValue.Key][0]);
             }
+        }
+
+        public void GenerateLevel()
+        {
+            _cardModel.GenerateLevel();
         }
 
         private void UpdateCardPack(int pos)
@@ -51,10 +59,29 @@ namespace SoliterGame.Cards
                 currentCardPos.Item1 = currentCardPos.Item1 + 1;
                 _cardPacksStatus[pos] = currentCardPos;
                 OnUpdateCardPack?.Invoke(pos, _cardModel.GetCardData(pos, currentCardPos.Item1));
+                CheckWinConditions();
             }
             else
             {
                 OnUpdateCardPack?.Invoke(pos, new CardView().Default());
+            }
+        }
+
+        private void CheckWinConditions()
+        {
+            bool isWin = true;
+            foreach(var keyValue in _cardPacksStatus)
+            {
+                if (keyValue.Value.Item1 != keyValue.Value.Item2)
+                {
+                    isWin = false;
+                    break;
+                }
+            }
+
+            if (isWin)
+            {
+                OnLevelFinished?.Invoke();
             }
         }
 
@@ -69,15 +96,14 @@ namespace SoliterGame.Cards
 
         public void OpenNextBankCard(int pos)
         {
-            if (_cardPacksStatus[pos].Item1 == _cardPacksStatus[pos].Item2)
-            {
-                OnUpdateCardPack?.Invoke(pos, new CardView().Default());
-                return;
-            }
-
             UpdateCardPack(pos);
             _currentComboCard = _cardModel.GetCardData(pos, _cardPacksStatus[pos].Item1);
             OnUpdateCardPack?.Invoke(pos, _currentComboCard);
+
+            if (_cardPacksStatus[pos].Item1 == _cardPacksStatus[pos].Item2)
+            {
+                OnUpdateCardPack?.Invoke(pos, new CardView().Default());
+            }
         }
 
         public CardView GetCurrentComboCardData()

@@ -33,11 +33,14 @@ public class CardPack : MonoBehaviour
     {
         if (pos == _cardPackPosIndex)
         {
-            _cardNameTexts.ForEach(x => x.text = card.CardData.CardName);
-            _cardImg.sprite = card.Sprite;
-            _currentCardData = card;
-
             CheckPackVisability(card.CardData.CardName);
+
+            if (_isShown)
+            {
+                _cardNameTexts.ForEach(x => x.text = card.CardData.CardName);
+                _cardImg.sprite = card.Sprite;
+                _currentCardData = card;
+            }
         }
     }
 

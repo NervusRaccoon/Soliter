@@ -43,6 +43,13 @@ namespace SoliterGame.Cards
         public void Start()
         {
             CardsData = Game.Databases.Cards.GetStateCardsData();
+            GenerateLevel();
+        }
+
+        public void GenerateLevel()
+        {
+            _comboDict.Clear();
+            _cardPacks.Clear();
             int cardsCount = Game.Databases.Cards.GetBoardCardsCount();
             (int, int) comboCardsCount = Game.Databases.Cards.GetComboCardsCount();
             int increasingComboChance = Game.Databases.Cards.GetIncreasingComboChance();
@@ -59,7 +66,7 @@ namespace SoliterGame.Cards
 
         public CardView GetCardData(int packPos, int cardPos)
         {
-            return _cardPacks.ContainsKey(packPos) ? _cardPacks[packPos][cardPos] : new CardView();
+            return _cardPacks.ContainsKey(packPos) && cardPos < _cardPacks[packPos].Count ? _cardPacks[packPos][cardPos] : new CardView().Default();
         }
 
         public Dictionary<int, List<CardView>> GetCardPacksData()
