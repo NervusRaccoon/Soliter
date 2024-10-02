@@ -65,6 +65,11 @@ MonoBehaviour:
     PrevIndex: 11
     NextIndex: 0
     CardName: A
+  CardSprites:
+  - {fileID: -1918143835, guid: 6e337cac3e7067648ab80f9e29877810, type: 3}
+  - {fileID: -1512022002, guid: 6e337cac3e7067648ab80f9e29877810, type: 3}
+  - {fileID: -1951083827, guid: 6e337cac3e7067648ab80f9e29877810, type: 3}
+  - {fileID: 1141382155, guid: 6e337cac3e7067648ab80f9e29877810, type: 3}
   OnBoardCardsCount: 40
   ComboCardsCount: {x: 2, y: 7}
   IncreasingComboChance: 65

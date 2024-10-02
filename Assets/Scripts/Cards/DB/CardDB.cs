@@ -16,6 +16,7 @@ namespace SoliterGame.Cards.Db
         }
 
         public List<CardData> CardsData;
+        public List<Sprite> CardSprites;
         public int OnBoardCardsCount;
         public Vector2Int ComboCardsCount;
         public int IncreasingComboChance;
@@ -50,6 +51,11 @@ namespace SoliterGame.Cards.Db
         public int GetCardPacksCount()
         {
             return CardPacksCount;
+        }
+
+        public List<Sprite> GetSprites()
+        {
+            return CardSprites;
         }
     }
 }

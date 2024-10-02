@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,10 +18,25 @@ namespace SoliterGame.Cards
             public int Pos;
         }
 
+        public class CardView
+        {
+            public CardData CardData;
+            public Sprite Sprite;
+
+            public CardView Default()
+            {
+                return new CardView()
+                {
+                    CardData = new CardData(),
+                    Sprite = null
+                };
+            }
+        }
+
         public List<CardData> CardsData;
 
         private Dictionary<int, List<CardInCombo>> _comboDict = new Dictionary<int, List<CardInCombo>>();
-        private Dictionary<int, List<CardData>> _cardPacks = new Dictionary<int, List<CardData>>();
+        private Dictionary<int, List<CardView>> _cardPacks = new Dictionary<int, List<CardView>>();
 
         public Action OnCardPacksGenerated { get; set; }
 
@@ -38,17 +52,17 @@ namespace SoliterGame.Cards
             GenerateCardPacks(cardPacksCount);
         }
 
-        public List<CardData> GetCardPackData(int pos)
+        public List<CardView> GetCardPackData(int pos)
         {
-            return _cardPacks.ContainsKey(pos) ? _cardPacks[pos] : new List<CardData>();
+            return _cardPacks.ContainsKey(pos) ? _cardPacks[pos] : new List<CardView>();
         }
 
-        public CardData GetCardData(int packPos, int cardPos)
+        public CardView GetCardData(int packPos, int cardPos)
         {
-            return _cardPacks.ContainsKey(packPos) ? _cardPacks[packPos][cardPos] : new CardData();
+            return _cardPacks.ContainsKey(packPos) ? _cardPacks[packPos][cardPos] : new CardView();
         }
 
-        public Dictionary<int, List<CardData>> GetCardPacksData()
+        public Dictionary<int, List<CardView>> GetCardPacksData()
         {
             return _cardPacks;
         }
@@ -89,17 +103,18 @@ namespace SoliterGame.Cards
 
         private void GenerateCardPacks(int cardPacksCount)
         {
+            var cardSprites = Game.Databases.Cards.GetSprites();
             for (int i = _comboDict.First().Key; i <= _comboDict.Last().Key; i++)
             {
                 _comboDict[i].ForEach(x =>
                 {
                     if (_cardPacks.ContainsKey(x.Pos))
                     {
-                        _cardPacks[x.Pos].Add(x.CardData);
+                        _cardPacks[x.Pos].Add(new CardView { CardData = x.CardData, Sprite = cardSprites[UnityEngine.Random.Range(0,cardSprites.Count)] });
                     }
                     else
                     {
-                        _cardPacks.Add(x.Pos, new List<CardData> { x.CardData });
+                        _cardPacks.Add(x.Pos, new List<CardView> { new CardView { CardData = x.CardData, Sprite = cardSprites[UnityEngine.Random.Range(0, cardSprites.Count)] } });
                     }
                 });
             }

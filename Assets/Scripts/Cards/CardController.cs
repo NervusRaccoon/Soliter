@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static SoliterGame.Cards.Db.CardDB;
-using static UnityEditor.PlayerSettings;
+using static SoliterGame.Cards.CardModel;
 
 namespace SoliterGame.Cards
 {
@@ -14,8 +11,8 @@ namespace SoliterGame.Cards
         public ICard Model => _cardModel;
 
         private Dictionary<int, (int, int)> _cardPacksStatus = new Dictionary<int, (int, int)>(); //pos, currCardCount, maxCardCount
-        public Action<int, CardData> OnUpdateCardPack;
-        private CardData _currentComboCard;
+        public Action<int, CardView> OnUpdateCardPack;
+        private CardView _currentComboCard;
 
         private void Awake()
         {
@@ -49,7 +46,7 @@ namespace SoliterGame.Cards
         private void UpdateCardPack(int pos)
         {
             var currentCardPos = _cardPacksStatus[pos];
-            if (currentCardPos.Item1 + 1 < currentCardPos.Item2)
+            if (currentCardPos.Item1 + 1 <= currentCardPos.Item2)
             {
                 currentCardPos.Item1 = currentCardPos.Item1 + 1;
                 _cardPacksStatus[pos] = currentCardPos;
@@ -57,13 +54,13 @@ namespace SoliterGame.Cards
             }
             else
             {
-                OnUpdateCardPack?.Invoke(pos, new CardData());
+                OnUpdateCardPack?.Invoke(pos, new CardView().Default());
             }
         }
 
-        public void CheckCardCompliesRules(int pos, CardData card)
+        public void CheckCardCompliesRules(int pos, CardView card)
         {
-            if (card.Index == _currentComboCard.PrevIndex || card.Index == _currentComboCard.NextIndex)
+            if (card.CardData.Index == _currentComboCard.CardData.PrevIndex || card.CardData.Index == _currentComboCard.CardData.NextIndex)
             {
                 _currentComboCard = card;
                 UpdateCardPack(pos);
@@ -72,12 +69,18 @@ namespace SoliterGame.Cards
 
         public void OpenNextBankCard(int pos)
         {
+            if (_cardPacksStatus[pos].Item1 == _cardPacksStatus[pos].Item2)
+            {
+                OnUpdateCardPack?.Invoke(pos, new CardView().Default());
+                return;
+            }
+
             UpdateCardPack(pos);
             _currentComboCard = _cardModel.GetCardData(pos, _cardPacksStatus[pos].Item1);
             OnUpdateCardPack?.Invoke(pos, _currentComboCard);
         }
 
-        public CardData GetCurrentComboCardData()
+        public CardView GetCurrentComboCardData()
         {
             return _currentComboCard;
         }
