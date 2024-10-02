@@ -5,9 +5,11 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject _winPanel;
+    [SerializeField] private GameObject _playPanel;
 
     private void Start()
     {
+        ShowPlayPanel();
         HideWinPanel();
         Game.Card.OnLevelFinished += ShowWinPanel;
     }
@@ -28,7 +30,13 @@ public class GameController : MonoBehaviour
     public void StartNewLevel()
     {
         Game.Card.GenerateLevel();
-        _winPanel.SetActive(false);
+        HideWinPanel();
+    }
+
+    public void StartGame()
+    {
+        Game.Card.GenerateLevel();
+        HidePlayPanel();
     }
 
     public void ShowWinPanel()
@@ -39,5 +47,15 @@ public class GameController : MonoBehaviour
     public void HideWinPanel()
     {
         _winPanel.SetActive(false);
+    }
+
+    public void ShowPlayPanel()
+    {
+        _playPanel.SetActive(true);
+    }
+
+    public void HidePlayPanel()
+    {
+        _playPanel.SetActive(false);
     }
 }

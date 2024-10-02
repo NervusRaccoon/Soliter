@@ -43,7 +43,6 @@ namespace SoliterGame.Cards
         public void Start()
         {
             CardsData = Game.Databases.Cards.GetStateCardsData();
-            GenerateLevel();
         }
 
         public void GenerateLevel()

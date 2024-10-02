@@ -16,7 +16,7 @@ public class CardPack : MonoBehaviour
     protected CardView _currentCardData;
     protected bool _isShown = true;
 
-    protected virtual void Start()
+    private void Start()
     {
         Game.Card.OnUpdateCardPack += UpdateView;
     }
