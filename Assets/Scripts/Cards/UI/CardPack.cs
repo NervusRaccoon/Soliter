@@ -12,6 +12,7 @@ public class CardPack : MonoBehaviour
     [SerializeField] protected List<Text> _cardNameTexts;
     [SerializeField] protected Image _cardImg;
     [SerializeField] protected Image _cardBack;
+    [SerializeField] protected Button _cardButton;
 
     protected CardView _currentCardData;
     protected bool _isShown = true;
@@ -19,6 +20,8 @@ public class CardPack : MonoBehaviour
     private void Start()
     {
         Game.Card.OnUpdateCardPack += UpdateView;
+        Game.Card.OnPauseLevel += BlockButtonClick;
+        Game.Card.OnUnpauseLevel += UnblockButtonClick;
     }
 
     private void OnDestroy()
@@ -26,7 +29,19 @@ public class CardPack : MonoBehaviour
         if (Game.Card != null)
         {
             Game.Card.OnUpdateCardPack -= UpdateView;
+            Game.Card.OnPauseLevel -= BlockButtonClick;
+            Game.Card.OnUnpauseLevel -= UnblockButtonClick;
         }
+    }
+
+    private void BlockButtonClick()
+    {
+        _cardButton.interactable = false;
+    }
+
+    private void UnblockButtonClick()
+    {
+        _cardButton.interactable = true;
     }
 
     protected virtual void UpdateView(int pos, CardView card)

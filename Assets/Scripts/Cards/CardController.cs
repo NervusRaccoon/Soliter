@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static SoliterGame.Cards.CardModel;
+using static UnityEditor.PlayerSettings;
 
 namespace SoliterGame.Cards
 {
@@ -14,6 +15,9 @@ namespace SoliterGame.Cards
         private Dictionary<int, (int, int)> _cardPacksStatus = new Dictionary<int, (int, int)>(); //pos, currCardCount, maxCardCount
         public Action<int, CardView> OnUpdateCardPack;
         public Action OnLevelFinished;
+        public Action OnPauseLevel;
+        public Action OnUnpauseLevel;
+        public Action<int, CardView> OnStartAnimation;
         private CardView _currentComboCard;
 
         private void Awake()
@@ -27,6 +31,7 @@ namespace SoliterGame.Cards
             _cardModel.OnCardPacksGenerated += CreateCardPacks;
             _cardModel.Start();
         }
+
 
         private void OnDestroy()
         {
@@ -49,6 +54,16 @@ namespace SoliterGame.Cards
         public void GenerateLevel()
         {
             _cardModel.GenerateLevel();
+        }
+
+        public void PauseLevel()
+        {
+            OnPauseLevel?.Invoke();
+        }
+
+        public void UnpauseLevel()
+        {
+            OnUnpauseLevel?.Invoke();
         }
 
         private void UpdateCardPack(int pos)
@@ -89,16 +104,21 @@ namespace SoliterGame.Cards
         {
             if (card.CardData.Index == _currentComboCard.CardData.PrevIndex || card.CardData.Index == _currentComboCard.CardData.NextIndex)
             {
-                _currentComboCard = card;
+                OnStartAnimation?.Invoke(pos, card);
                 UpdateCardPack(pos);
             }
+        }
+
+        public void UpdateCurrentComboCard(CardView card)
+        {
+           _currentComboCard = card;
+            OnUpdateCardPack?.Invoke(-1, _currentComboCard);
         }
 
         public void OpenNextBankCard(int pos)
         {
             UpdateCardPack(pos);
-            _currentComboCard = _cardModel.GetCardData(pos, _cardPacksStatus[pos].Item1);
-            OnUpdateCardPack?.Invoke(pos, _currentComboCard);
+            OnStartAnimation?.Invoke(pos, _cardModel.GetCardData(pos, _cardPacksStatus[pos].Item1));
 
             if (_cardPacksStatus[pos].Item1 == _cardPacksStatus[pos].Item2)
             {

@@ -312,6 +312,7 @@ MonoBehaviour:
   - {fileID: 2254996805425488498}
   _cardImg: {fileID: 4319757707180049808}
   _cardBack: {fileID: 9149184861175913346}
+  _cardButton: {fileID: 5918780442613886204}
 --- !u!1 &8416323386192324184
 GameObject:
   m_ObjectHideFlags: 0

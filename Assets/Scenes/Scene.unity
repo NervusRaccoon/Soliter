@@ -367,11 +367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358586698490216763, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: m_Name
-      value: RightBottomCard
+      value: LeftBottomCard
       objectReference: {fileID: 0}
     - target: {fileID: 7487627593286144153, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: _cardPackPosIndex
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -473,11 +473,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358586698490216763, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: m_Name
-      value: LeftBottomCard
+      value: RightBottomCard
       objectReference: {fileID: 0}
     - target: {fileID: 7487627593286144153, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: _cardPackPosIndex
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -655,6 +655,18 @@ MonoBehaviour:
   _cardNameTexts: []
   _cardImg: {fileID: 432518496}
   _cardBack: {fileID: 432518500}
+  _cardButton: {fileID: 432518499}
+--- !u!114 &432518499 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5918780442613886204, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
+  m_PrefabInstance: {fileID: 432518494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432518497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &432518500 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9149184861175913346, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
@@ -666,6 +678,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &538347716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538347717}
+  - component: {fileID: 538347718}
+  m_Layer: 5
+  m_Name: CardAnimator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &538347717
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538347716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 667093139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &538347718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538347716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a444f21dda89f47b90b831354ea226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardPacksPos:
+  - PosIndex: 0
+    Transform: {fileID: 432518495}
+  - PosIndex: 1
+    Transform: {fileID: 1439406365}
+  - PosIndex: 2
+    Transform: {fileID: 1324303642}
+  - PosIndex: 3
+    Transform: {fileID: 404075919}
+  - PosIndex: 4
+    Transform: {fileID: 410148639}
+  _cardComboPos: {fileID: 1994222666}
+  _cardViewPrefab: {fileID: 1676097462677610184, guid: 0f92a0047876a61428804edfd2997d6e, type: 3}
+  _animDuration: 0.4
 --- !u!1 &667093138
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +777,7 @@ RectTransform:
   - {fileID: 404075919}
   - {fileID: 1994222666}
   - {fileID: 432518495}
+  - {fileID: 538347717}
   m_Father: {fileID: 1781702849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1419,11 +1494,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358586698490216763, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: m_Name
-      value: RightTopCard
+      value: LeftTopCard
       objectReference: {fileID: 0}
     - target: {fileID: 7487627593286144153, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: _cardPackPosIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1435,6 +1510,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3174256881832485615, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
   m_PrefabInstance: {fileID: 1439406364}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1525635007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5918780442613886204, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
+  m_PrefabInstance: {fileID: 1994222665}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994222668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1781702845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,12 +1889,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60278c4024c664746a3b202ea9bc44de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardPackPosIndex: 0
+  _cardPackPosIndex: -1
   _cardNameTexts:
   - {fileID: 1994222667}
   - {fileID: 1994222670}
   _cardImg: {fileID: 1868538824}
   _cardBack: {fileID: 1994222674}
+  _cardButton: {fileID: 1525635007}
 --- !u!114 &1994222670 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2254996805425488498, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
@@ -2264,11 +2351,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358586698490216763, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: m_Name
-      value: LeftTopCard
+      value: RightTopCard
       objectReference: {fileID: 0}
     - target: {fileID: 7487627593286144153, guid: a61b8ea48f48dd64bb4b995c2db2c14a, type: 3}
       propertyPath: _cardPackPosIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
