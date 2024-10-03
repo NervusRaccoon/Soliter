@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static SoliterGame.Cards.CardModel;
-using static UnityEditor.PlayerSettings;
 
 namespace SoliterGame.Cards
 {
